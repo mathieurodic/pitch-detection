@@ -1,7 +1,7 @@
 #include "pitch_detection.h"
 #include <algorithm>
 #include <complex>
-#include <ffts/ffts.h>
+#include <ffts.h>
 #include <numeric>
 #include <vector>
 

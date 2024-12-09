@@ -78,7 +78,7 @@ detail::bin_pitches(const std::vector<std::pair<T, T>> pitch_candidates)
 	return possible_bins;
 }
 
-mlpack::hmm::HMM<mlpack::distribution::DiscreteDistribution>
+mlpack::HMM<mlpack::DiscreteDistribution>
 detail::build_hmm()
 {
 	size_t hmm_size = 2 * N_BINS + 1;
@@ -122,22 +122,22 @@ detail::build_hmm()
 
 	// the only valid emissions are exact notes
 	// i.e. an identity matrix of emissions
-	std::vector<mlpack::distribution::DiscreteDistribution> emissions(hmm_size);
+	std::vector<mlpack::DiscreteDistribution> emissions(hmm_size);
 
 	for (size_t i = 0; i < hmm_size; ++i) {
-		emissions[i] = mlpack::distribution::DiscreteDistribution(
+		emissions[i] = mlpack::DiscreteDistribution(
 		    std::vector<arma::vec>{arma::vec(hmm_size, arma::fill::zeros)});
 		emissions[i].Probabilities()[i] = 1.0;
 	}
 
-	auto hmm = mlpack::hmm::HMM(initial, transition, emissions);
+	auto hmm = mlpack::HMM(initial, transition, emissions);
 	return hmm;
 }
 
 template <typename T>
 T
 util::pitch_from_hmm(
-    mlpack::hmm::HMM<mlpack::distribution::DiscreteDistribution> hmm,
+    mlpack::HMM<mlpack::DiscreteDistribution> hmm,
     const std::vector<std::pair<T, T>> pitch_candidates)
 {
 	if (pitch_candidates.size() == 0) {
@@ -185,10 +185,10 @@ util::pitch_from_hmm(
 
 template double
 util::pitch_from_hmm<double>(
-    mlpack::hmm::HMM<mlpack::distribution::DiscreteDistribution> hmm,
+    mlpack::HMM<mlpack::DiscreteDistribution> hmm,
     const std::vector<std::pair<double, double>> pitch_candidates);
 
 template float
 util::pitch_from_hmm<float>(
-    mlpack::hmm::HMM<mlpack::distribution::DiscreteDistribution> hmm,
+    mlpack::HMM<mlpack::DiscreteDistribution> hmm,
     const std::vector<std::pair<float, float>> pitch_candidates);
